@@ -8,7 +8,9 @@ class App(QWidget):
         super().__init__()
         self.title = 'PDF Text Dumper'
         self.width = 500
-        self.height = 100
+        self.height = 105
+        self.sourceFileDir = ''
+        self.destFolderDir = ''
         self.initUI()
 
     def initUI(self):
@@ -18,8 +20,9 @@ class App(QWidget):
         self.setFixedHeight(self.height)
         self.setFixedWidth(self.width)
 
+        # UI Components #
         # select source file - label
-        self.label_srcfile = QLabel('Select Source File:', self)
+        self.label_srcfile = QLabel('Selected Source File:', self)
         self.label_srcfile.move(5, 5)
 
         # select source file diaglog box - button
@@ -30,27 +33,37 @@ class App(QWidget):
         
              
         # select outfile location - label
-        self.label_outfile = QLabel('Select Output Directory:', self)
-        self.label_outfile.move(5, 50)
+        self.label_outfile = QLabel('Selected Output Folder:', self)
+        self.label_outfile.move(5, 55)
 
         # select source file diaglog box - button
         self.selectFileButton = QPushButton(self)
         self.selectFileButton.setText('Select Output Folder')
-        self.selectFileButton.move(5, 70)
+        self.selectFileButton.move(5, 75)
         self.selectFileButton.clicked.connect(self.selectOutput_clicked)
+
+        # extract text - button
+        self.extractButton = QPushButton(self)
+        self.extractButton.setText('Extract Text')
+        self.extractButton.move(415, 75)
+        self.extractButton.clicked.connect(self.extractButton_clicked)
+
         
 
         self.show()
 
     def selectPDF_clicked(self, arg2):
-        filename = QFileDialog.getOpenFileName(self, 'Select PDF File', '/home/', 'PDF Files (*.pdf)')
+        self.sourceFileDir = QFileDialog.getOpenFileName(self, 'Select PDF File', '/home/', 'PDF Files (*.pdf)')
         self.label_srcfile.setText(f'Selected File: {filename[0]}')
         self.label_srcfile.adjustSize()
 
     def selectOutput_clicked(self, arg2):
-        folderpath = QFileDialog.getExistingDirectory(self, "Select Folder")
+        self.destFolderDir = QFileDialog.getExistingDirectory(self, "Select Folder")
         self.label_outfile.setText(f'Output Directory: {folderpath}')
         self.label_outfile.adjustSize()
+
+    def extractButton_clicked(self, arg2):
+        raise NotImplementedError()
 
 if __name__ == '__main__':
     # execute the program
